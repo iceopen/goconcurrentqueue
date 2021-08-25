@@ -1,41 +1,46 @@
-[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/mod/github.com/enriquebris/goconcurrentqueue) [![godoc reference](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/enriquebris/goconcurrentqueue) ![version](https://img.shields.io/badge/version-v0.6.1-yellowgreen.svg?style=flat "goconcurrentqueue v0.6.1") [![Build Status](https://api.travis-ci.org/enriquebris/goconcurrentqueue.svg?branch=master)](https://travis-ci.org/enriquebris/goconcurrentqueue) [![Go Report Card](https://goreportcard.com/badge/github.com/enriquebris/goconcurrentqueue)](https://goreportcard.com/report/github.com/enriquebris/goconcurrentqueue)  [![codecov](https://codecov.io/gh/enriquebris/goconcurrentqueue/branch/master/graph/badge.svg)](https://codecov.io/gh/enriquebris/goconcurrentqueue) [![CodeFactor](https://www.codefactor.io/repository/github/enriquebris/goconcurrentqueue/badge)](https://www.codefactor.io/repository/github/enriquebris/goconcurrentqueue) [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
-
 # goconcurrentqueue - Concurrent safe queues
-The package goconcurrentqueue offers a public interface Queue with methods for a [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)).
-It comes with multiple Queue's concurrent-safe implementations, meaning they could be used concurrently by multiple goroutines without adding race conditions.
+
+The package goconcurrentqueue offers a public interface Queue with methods for
+a [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)). It comes with multiple Queue's concurrent-safe
+implementations, meaning they could be used concurrently by multiple goroutines without adding race conditions.
 
 ## Topics
- - [Installation](#installation)
- - [Documentation](#documentation)
- - [Classes diagram](#classes-diagram)
- - [Queues](#queues)
+
+- [Installation](#installation)
+- [Documentation](#documentation)
+- [Classes diagram](#classes-diagram)
+- [Queues](#queues)
     - [FIFO](#fifo)
     - [FixedFIFO](#fixedfifo)
     - [Benchmarks](#benchmarks-fixedfifo-vs-fifo)
- - [Get started](#get-started)
- - [History](#history)
+- [Get started](#get-started)
+- [History](#history)
 
 ## Installation
 
 Execute
+
 ```bash
-go get github.com/enriquebris/goconcurrentqueue
+go get github.com/iceopen/goconcurrentqueue
 ```
 
 This package is compatible with the following golang versions:
- - 1.7.x
- - 1.8.x
- - 1.9.x
- - 1.10.x
- - 1.11.x
- - 1.12.x
- - 1.13.x
- - 1.14.x
+
+- 1.7.x
+- 1.8.x
+- 1.9.x
+- 1.10.x
+- 1.11.x
+- 1.12.x
+- 1.13.x
+- 1.14.x
 
 ## Documentation
+
 Visit [goconcurrentqueue at go.dev](https://pkg.go.dev/mod/github.com/enriquebris/goconcurrentqueue)
 
 ## Classes diagram
+
 ![goconcurrentqueue class diagram](web/class-diagram.svg "goconcurrentqueue class diagram")
 
 ## Queues
@@ -50,27 +55,35 @@ Visit [goconcurrentqueue at go.dev](https://pkg.go.dev/mod/github.com/enriquebri
 **FIFO**: concurrent-safe auto expandable queue.
 
 #### pros
- - It is possible to enqueue as many items as needed.
- - Extra methods to get and remove enqueued items:
-     - [Get](https://godoc.org/github.com/enriquebris/goconcurrentqueue#FIFO.Get): returns an element's value and keeps the element at the queue
-     - [Remove](https://godoc.org/github.com/enriquebris/goconcurrentqueue#FIFO.Get): removes an element (using a given position) from the queue
+
+- It is possible to enqueue as many items as needed.
+- Extra methods to get and remove enqueued items:
+    - [Get](https://godoc.org/github.com/enriquebris/goconcurrentqueue#FIFO.Get): returns an element's value and keeps
+      the element at the queue
+    - [Remove](https://godoc.org/github.com/enriquebris/goconcurrentqueue#FIFO.Get): removes an element (using a given
+      position) from the queue
 
 #### cons
- - It is slightly slower than FixedFIFO.
+
+- It is slightly slower than FixedFIFO.
 
 ### FixedFIFO
 
 **FixedFIFO**: concurrent-safe fixed capacity queue.
 
 #### pros
- - FixedFIFO is, at least, 2x faster than [FIFO](#fifo) in concurrent scenarios (multiple GR accessing the queue simultaneously).
+
+- FixedFIFO is, at least, 2x faster than [FIFO](#fifo) in concurrent scenarios (multiple GR accessing the queue
+  simultaneously).
 
 #### cons
- - It has a fixed capacity meaning that no more items than this capacity could coexist at the same time. 
+
+- It has a fixed capacity meaning that no more items than this capacity could coexist at the same time.
 
 ## Benchmarks FixedFIFO vs FIFO
 
-The numbers for the following charts were obtained by running the benchmarks in a 2012 MacBook Pro (2.3 GHz Intel Core i7 - 16 GB 1600 MHz DDR3) with golang v1.12 
+The numbers for the following charts were obtained by running the benchmarks in a 2012 MacBook Pro (2.3 GHz Intel Core
+i7 - 16 GB 1600 MHz DDR3) with golang v1.12
 
 ### Enqueue
 
@@ -83,6 +96,7 @@ The numbers for the following charts were obtained by running the benchmarks in 
 ## Get started
 
 ### FIFO queue simple usage
+
 [Live code - playground](https://play.golang.org/p/CRhg7kX0ikH)
 
 ```go
@@ -125,6 +139,7 @@ func main() {
 ```
 
 ### Wait until an element gets enqueued
+
 [Live code - playground](https://play.golang.org/p/S7oSg3iUNhs)
 
 ```go
@@ -163,6 +178,7 @@ func main() {
 ```
 
 ### Wait until an element gets enqueued with timeout
+
 [Live code - playground](https://play.golang.org/p/E3xdHcW5nJy)
 
 ```go
@@ -178,14 +194,14 @@ import (
 
 func main() {
 	var (
-		fifo = goconcurrentqueue.NewFIFO()
+		fifo        = goconcurrentqueue.NewFIFO()
 		ctx, cancel = context.WithTimeout(context.Background(), 3*time.Second)
 	)
 	defer cancel()
 
 	fmt.Println("1 - Waiting for next enqueued element")
 	_, err := fifo.DequeueOrWaitForNextElementContext(ctx)
-    
+
 	if err != nil {
 		fmt.Printf("2 - Failed waiting for new element: %v\n", err)
 		return
@@ -252,8 +268,9 @@ func workWithQueue(queue goconcurrentqueue.Queue) error {
 
 ### v0.5.1
 
-- FIFO.DequeueOrWaitForNextElement() was modified to avoid deadlock when DequeueOrWaitForNextElement && Enqueue are invoked around the same time.
-- Added multiple goroutine unit testings for FIFO.DequeueOrWaitForNextElement() 
+- FIFO.DequeueOrWaitForNextElement() was modified to avoid deadlock when DequeueOrWaitForNextElement && Enqueue are
+  invoked around the same time.
+- Added multiple goroutine unit testings for FIFO.DequeueOrWaitForNextElement()
 
 ### v0.5.0
 
